@@ -25,7 +25,7 @@ public class Main {
             System.out.println("0 - Sair");
             System.out.print("Escolha uma opção: ");
             opcao = leitor.nextInt();
-            leitor.nextLine(); // consumir quebra de linha
+            leitor.nextLine();
 
             try {
                 opcao = leitor.nextInt();
