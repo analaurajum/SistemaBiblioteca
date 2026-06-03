@@ -1,3 +1,5 @@
+package model;
+
 public class Usuario extends Pessoa {
     private String matricula;
     private String tipo;

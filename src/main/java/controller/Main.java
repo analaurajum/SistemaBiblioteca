@@ -1,3 +1,7 @@
+package controller;
+
+import model.*;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
@@ -75,7 +79,7 @@ public class Main {
                     System.out.println("Autor:");
                     String autor = leitor.nextLine();
 
-                    Livro livro = new Livro(livros.size() + 100, titulo, autor);
+                    Livro livro = new Livro(livros.size()+100, titulo, autor);
                     livro.alterarDisponibilidade(true);
                     livros.add(livro);
 
