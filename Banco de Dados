@@ -1,3 +1,4 @@
+drop database sistema_biblioteca;
 CREATE DATABASE sistema_biblioteca;
 
 USE sistema_biblioteca;
@@ -65,12 +66,12 @@ INSERT INTO categoria_biblio (nome) VALUES
 ('Biografia'),
 ('Autoajuda'),
 ('Negócios e Finanças'),
-('Crônica')
+('Crônica'),
 ('Educação');
 
 -- INSERTS LIVROS
 
-INSERT INTO livro (titulo, autor) VALUES
+INSERT INTO livro (titulo, autor, categoria_id) VALUES
 ('1984', 'George Orwell', 1),
 ('A Culpa é das Estrelas', 'John Green', 2),
 ('Boletinhos: Como virar adulto sem surtar', 'Alan Soares', 11),
@@ -85,12 +86,12 @@ INSERT INTO livro (titulo, autor) VALUES
 ('O Iluminado', 'Stephen King', 6),
 ('Steve Jobs', 'Walter Isaacson', 7),
 ('Pai Rico, Pai Pobre', 'Robert Kiyosaki', 9),
-('Sapiens: Uma Breve História da Humanidade', 'Yuval Noah Harari', 12),
-('Meditações', 'Marco Aurélio', 13),
-('O Corvo', 'Edgar Allan Poe', 15),
-('Dom Quixote', 'Miguel de Cervantes', 18),
-('Batman: O Cavaleiro das Trevas', 'Frank Miller', 19),
-('Clean Code: Habilidades Práticas do Agile', 'Robert C. Martin', 21);
+('Sapiens: Uma Breve História da Humanidade', 'Yuval Noah Harari', 11),
+('Meditações', 'Marco Aurélio', 11),
+('O Corvo', 'Edgar Allan Poe', 6),
+('Dom Quixote', 'Miguel de Cervantes', 2),
+('Batman: O Cavaleiro das Trevas', 'Frank Miller', 1),
+('Clean Code: Habilidades Práticas do Agile', 'Robert C. Martin', 11);
 
 -- INSERINDO USUÁRIOS
 
