@@ -1,190 +1,71 @@
-drop database sistema_biblioteca;
-CREATE DATABASE sistema_biblioteca;
+CREATE DATABASE IF NOT EXISTS biblioteca;
+USE biblioteca;
 
-USE sistema_biblioteca;
+-- ------------------------------------------------------------
+-- Tabela: aluno
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS aluno (
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    nome        VARCHAR(150) NOT NULL,
+    matricula   VARCHAR(50)  NOT NULL UNIQUE,
+    curso       VARCHAR(100),
+    email       VARCHAR(150),
+    telefone    VARCHAR(30)
+) ENGINE=InnoDB;
 
-CREATE TABLE categoria_biblio (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(100) NOT NULL
-);
+-- ------------------------------------------------------------
+-- Tabela: funcionario
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS funcionario (
+    id                  INT AUTO_INCREMENT PRIMARY KEY,
+    nome                VARCHAR(150) NOT NULL,
+    cargo               VARCHAR(100),
+    matricula_funcional VARCHAR(50)  NOT NULL UNIQUE,
+    email               VARCHAR(150),
+    telefone            VARCHAR(30)
+) ENGINE=InnoDB;
 
-CREATE TABLE livro (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-    titulo VARCHAR(100) NOT NULL,
-    autor VARCHAR(100),
-    categoria_id INT,
-    FOREIGN KEY (categoria_id) REFERENCES categoria_biblio(id)
-);
+-- ------------------------------------------------------------
+-- Tabela: livro
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS livro (
+    id                    INT AUTO_INCREMENT PRIMARY KEY,
+    isbn                  VARCHAR(20)  NOT NULL UNIQUE,
+    titulo                VARCHAR(255) NOT NULL,
+    autor                 VARCHAR(150),
+    ano_publicacao        VARCHAR(10),
+    capa_url              VARCHAR(500),
+    quantidade_total      INT NOT NULL DEFAULT 0,
+    quantidade_disponivel INT NOT NULL DEFAULT 0
+) ENGINE=InnoDB;
 
-CREATE TABLE usuario (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(100) NOT NULL,
-    cpf VARCHAR(11) UNIQUE NOT NULL,
-    email VARCHAR(100),
-    matricula VARCHAR(20) UNIQUE,
-    tipo VARCHAR(20)
-);
+-- ------------------------------------------------------------
+-- Tabela: emprestimo
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS emprestimo (
+    id                      INT AUTO_INCREMENT PRIMARY KEY,
+    aluno_id                INT         NOT NULL,
+    livro_id                INT         NOT NULL,
+    funcionario_id          INT         NOT NULL,
+    data_emprestimo         DATE        NOT NULL,
+    data_prevista_devolucao DATE        NOT NULL,
+    data_devolucao          DATE        NULL,          -- NULL = ainda não devolvido
+    status                  VARCHAR(20) NOT NULL DEFAULT 'ATIVO',
+    CONSTRAINT fk_emp_aluno       FOREIGN KEY (aluno_id)       REFERENCES aluno(id),
+    CONSTRAINT fk_emp_livro       FOREIGN KEY (livro_id)       REFERENCES livro(id),
+    CONSTRAINT fk_emp_funcionario FOREIGN KEY (funcionario_id) REFERENCES funcionario(id)
+) ENGINE=InnoDB;
 
-CREATE TABLE funcionario (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(100) NOT NULL,
-    cpf VARCHAR(11) UNIQUE NOT NULL,
-    email VARCHAR(100),
-    cargo VARCHAR(100)
-);
-
-CREATE TABLE emprestimo (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-    data_emprestimo DATETIME,
-    data_devolucao DATETIME,
-    stts VARCHAR(20),
-    usuario_id INT,
-    livro_id INT,
-    FOREIGN KEY (usuario_id) REFERENCES usuario(id),
-    FOREIGN KEY (livro_id) REFERENCES livro(id)
-);
-
-CREATE TABLE reserva (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-    data_reserva DATE NOT NULL,
-    stts VARCHAR(20),
-    usuario_id INT,
-    livro_id INT,
-    FOREIGN KEY (usuario_id) REFERENCES usuario(id),
-    FOREIGN KEY (livro_id) REFERENCES livro(id)
-);
-
--- INSERTS CATEGORIA
-
-INSERT INTO categoria_biblio (nome) VALUES
-('Ficção Científica'),
-('Romance'),
-('Fantasia'),
-('Suspense'),
-('Mistério'),
-('Terror'),
-('Biografia'),
-('Autoajuda'),
-('Negócios e Finanças'),
-('Crônica'),
-('Educação');
-
--- INSERTS LIVROS
-
-INSERT INTO livro (titulo, autor, categoria_id) VALUES
-('1984', 'George Orwell', 1),
-('A Culpa é das Estrelas', 'John Green', 2),
-('Boletinhos: Como virar adulto sem surtar', 'Alan Soares', 11),
-('Talvez você deva conversar com alguém: Uma terapeuta, o terapeuta dela e a vida de todos nós', 'Lori Gottlieb', 8),
-('O caminho do artista: Desperte o seu potencial criativo e rompa seus bloqueios', 'Julia Cameron', 11),
-('A menina que roubava livros', 'Markus Zusak', 1),
-('O bosque das coisas perdidas', 'Shea Ernshaw', 5),
-('Os primos', 'Karen M. McManus', 4),
-('Duna', 'Frank Herbert', 1),
-('O Senhor dos Anéis: A Sociedade do Anel', 'J.R.R. Tolkien', 3),
-('Harry Potter e a Pedra Filosofal', 'J.K. Rowling', 3),
-('O Iluminado', 'Stephen King', 6),
-('Steve Jobs', 'Walter Isaacson', 7),
-('Pai Rico, Pai Pobre', 'Robert Kiyosaki', 9),
-('Sapiens: Uma Breve História da Humanidade', 'Yuval Noah Harari', 11),
-('Meditações', 'Marco Aurélio', 11),
-('O Corvo', 'Edgar Allan Poe', 6),
-('Dom Quixote', 'Miguel de Cervantes', 2),
-('Batman: O Cavaleiro das Trevas', 'Frank Miller', 1),
-('Clean Code: Habilidades Práticas do Agile', 'Robert C. Martin', 11);
-
--- INSERINDO USUÁRIOS
-
-INSERT INTO usuario (nome, cpf, email, matricula, tipo) VALUES
-('Ana Clara Sousa', '11122233344', 'ana.clara@email.com', '2023001', 'Aluno'),
-('Bruno Henrique Martins', '22233344455', 'bruno.hm@email.com', '2023002', 'Aluno'),
-('Carlos Eduardo Lima', '33344455566', 'carlos.edu@email.com', '1998001', 'Professor'),
-('Daniela Alves', '44455566677', 'daniela.a@email.com', '2024001', 'Aluno'),
-('Eduardo Costa', '55566677788', 'edu.costa@email.com', '2024002', 'Aluno'),
-('Fernanda Rocha', '66677788899', 'nanda.rocha@email.com', '2015001', 'Professor'),
-('Gabriel Santos', '77788899900', 'gabriel.s@email.com', '2023003', 'Aluno'),
-('Helena Silva', '88899900011', 'helena.silva@email.com', '2023004', 'Aluno'),
-('Igor Pereira', '99900011122', 'igor.p@email.com', '2010001', 'Professor'),
-('Juliana Gomes', '00011122233', 'ju.gomes@email.com', '2024003', 'Aluno'),
-('Lucas Carvalho', '12312312312', 'lucas.c@email.com', '2024004', 'Aluno'),
-('Mariana Oliveira', '23423423423', 'mariana.o@email.com', '2022001', 'Aluno'),
-('Nicolas Ferreira', '34534534534', 'nicolas.f@email.com', '2022002', 'Aluno'),
-('Olivia Mendes', '45645645645', 'olivia.m@email.com', '2005001', 'Professor'),
-('Pedro Henrique', '56756756756', 'pedro.h@email.com', '2021001', 'Aluno'),
-('Quintino Barros', '67867867867', 'quintino.b@email.com', '2021002', 'Aluno'),
-('Rafaela Nunes', '78978978978', 'rafaela.n@email.com', '2008001', 'Professor'),
-('Samuel Dias', '89089089089', 'samuel.d@email.com', '2023005', 'Aluno'),
-('Tatiana Vieira', '90190190190', 'tatiana.v@email.com', '2023006', 'Aluno'),
-('Ursula Moraes', '01201201201', 'ursula.m@email.com', '2012001', 'Professor');
-
--- INSERINDO FUNCIONÁRIOS
-
-INSERT INTO funcionario (nome, cpf, email, cargo) VALUES
-('João da Silva', '10120230340', 'joao.biblioteca@email.com', 'Bibliotecário Chefe'),
-('Maria Oliveira', '20230340450', 'maria.atendimento@email.com', 'Atendente'),
-('Ricardo Almeida', '30340450560', 'ricardo.ti@email.com', 'Suporte TI'),
-('Sandra Lima', '40450560670', 'sandra.biblio@email.com', 'Bibliotecária'),
-('Roberto Carlos', '50560670780', 'roberto.sec@email.com', 'Segurança'),
-('Amanda Nogueira', '60670780890', 'amanda.atendimento@email.com', 'Atendente'),
-('Felipe Mendes', '70780890901', 'felipe.admin@email.com', 'Administrador'),
-('Camila Ribeiro', '80890901012', 'camila.biblio@email.com', 'Auxiliar de Biblioteca'),
-('Thiago Barros', '90901012023', 'thiago.limpeza@email.com', 'Serviços Gerais'),
-('Beatriz Souza', '01012023034', 'beatriz.atendimento@email.com', 'Atendente'),
-('Vitor Hugo', '11223344556', 'vitor.biblio@email.com', 'Auxiliar de Biblioteca'),
-('Laura Martins', '22334455667', 'laura.rh@email.com', 'Recursos Humanos'),
-('Diego Fernandes', '33445566778', 'diego.atendimento@email.com', 'Atendente'),
-('Paula Castro', '44556677889', 'paula.gerencia@email.com', 'Gerente'),
-('Marcelo Pires', '55667788990', 'marcelo.ti@email.com', 'Suporte TI'),
-('Renata Farias', '66778899001', 'renata.biblio@email.com', 'Bibliotecária'),
-('Gustavo Lopes', '77889900112', 'gustavo.sec@email.com', 'Segurança'),
-('Isabela Freitas', '88990011223', 'isabela.aux@email.com', 'Auxiliar de Biblioteca'),
-('Arthur Moura', '99001122334', 'arthur.atendimento@email.com', 'Atendente'),
-('Letícia Cardoso', '00112233445', 'leticia.biblio@email.com', 'Bibliotecária');
-
--- INSERINDO EMPRÉSTIMOS DOS LIVROS
-
-INSERT INTO emprestimo (data_emprestimo, data_devolucao, stts, usuario_id, livro_id) VALUES
-('2026-05-01 10:00:00', '2026-05-15 10:00:00', 'Devolvido', 1, 10),
-('2026-05-02 11:30:00', '2026-05-16 11:30:00', 'Devolvido', 2, 2),
-('2026-05-10 14:20:00', '2026-05-24 14:20:00', 'Devolvido', 3, 20),
-('2026-05-20 09:15:00', NULL, 'Atrasado', 4, 1),
-('2026-05-22 16:45:00', NULL, 'Atrasado', 5, 5),
-('2026-05-25 10:00:00', NULL, 'Em andamento', 6, 15),
-('2026-05-26 13:10:00', NULL, 'Em andamento', 7, 7),
-('2026-05-27 15:30:00', NULL, 'Em andamento', 8, 8),
-('2026-05-28 08:40:00', NULL, 'Em andamento', 9, 12),
-('2026-05-29 11:00:00', NULL, 'Em andamento', 10, 19),
-('2026-05-30 14:50:00', NULL, 'Em andamento', 11, 3),
-('2026-05-31 09:20:00', NULL, 'Em andamento', 12, 4),
-('2026-06-01 10:30:00', NULL, 'Em andamento', 13, 11),
-('2026-06-01 16:15:00', NULL, 'Em andamento', 14, 16),
-('2026-06-02 11:45:00', NULL, 'Em andamento', 15, 6),
-('2026-06-02 13:20:00', NULL, 'Em andamento', 16, 18),
-('2026-06-03 08:00:00', NULL, 'Em andamento', 17, 14),
-('2026-06-03 14:10:00', NULL, 'Em andamento', 18, 9),
-('2026-06-04 10:05:00', NULL, 'Em andamento', 19, 13),
-('2026-06-04 15:55:00', NULL, 'Em andamento', 20, 17);
-
--- INSERINDO RESERVAS DOS LIVROS
-    
-INSERT INTO reserva (data_reserva, stts, usuario_id, livro_id) VALUES
-('2026-04-10', 'Concluída', 1, 10),
-('2026-04-15', 'Concluída', 2, 2),
-('2026-04-20', 'Cancelada', 3, 5),
-('2026-05-01', 'Concluída', 4, 1),
-('2026-05-05', 'Cancelada', 5, 8),
-('2026-05-10', 'Concluída', 6, 15),
-('2026-05-25', 'Ativa', 7, 7),
-('2026-05-28', 'Ativa', 8, 20),
-('2026-05-29', 'Ativa', 9, 11),
-('2026-05-30', 'Ativa', 10, 3),
-('2026-05-31', 'Ativa', 11, 12),
-('2026-06-01', 'Ativa', 12, 19),
-('2026-06-02', 'Ativa', 13, 6),
-('2026-06-02', 'Ativa', 14, 16),
-('2026-06-03', 'Ativa', 15, 14),
-('2026-06-03', 'Ativa', 16, 9),
-('2026-06-04', 'Ativa', 17, 18),
-('2026-06-04', 'Ativa', 18, 17),
-('2026-06-04', 'Ativa', 19, 4),
-('2026-06-04', 'Ativa', 20, 13);
+-- ------------------------------------------------------------
+-- Tabela: reserva
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS reserva (
+    id            INT AUTO_INCREMENT PRIMARY KEY,
+    aluno_id      INT         NOT NULL,
+    livro_id      INT         NOT NULL,
+    data_reserva  DATE        NOT NULL,
+    data_validade DATE        NOT NULL,
+    status        VARCHAR(20) NOT NULL DEFAULT 'ATIVA',   -- ATIVA / CANCELADA / CONVERTIDA / EXPIRADA
+    CONSTRAINT fk_res_aluno FOREIGN KEY (aluno_id) REFERENCES aluno(id),
+    CONSTRAINT fk_res_livro FOREIGN KEY (livro_id) REFERENCES livro(id)
+) ENGINE=InnoDB;
