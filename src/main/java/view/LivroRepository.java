@@ -1,18 +1,13 @@
 package view;
 
 import dao.ConexaoDB;
-import model.Livro;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import model.Livro;
 
 public class LivroRepository {
-
-    // ------------------------------------------------------------------
-    // Listagem
-    // ------------------------------------------------------------------
 
     public List<Livro> listarTodos() {
         String sql = "SELECT id, isbn, titulo, autor, ano_publicacao, capa_url, " +
@@ -29,10 +24,6 @@ public class LivroRepository {
         }
         return livros;
     }
-
-    // ------------------------------------------------------------------
-    // Busca por ID
-    // ------------------------------------------------------------------
 
     public Optional<Livro> buscarPorId(int id) {
         String sql = "SELECT id, isbn, titulo, autor, ano_publicacao, capa_url, " +
@@ -51,10 +42,6 @@ public class LivroRepository {
         return Optional.empty();
     }
 
-    // ------------------------------------------------------------------
-    // Busca por ISBN
-    // ------------------------------------------------------------------
-
     public Optional<Livro> buscarPorIsbn(String isbn) {
         String sql = "SELECT id, isbn, titulo, autor, ano_publicacao, capa_url, " +
                 "quantidade_total, quantidade_disponivel FROM livro WHERE LOWER(isbn) = LOWER(?)";
@@ -71,10 +58,6 @@ public class LivroRepository {
         }
         return Optional.empty();
     }
-
-    // ------------------------------------------------------------------
-    // Busca por título, autor ou ISBN
-    // ------------------------------------------------------------------
 
     public List<Livro> buscarPorTituloOuAutorOuIsbn(String termo) {
         String sql = "SELECT id, isbn, titulo, autor, ano_publicacao, capa_url, " +
@@ -99,9 +82,6 @@ public class LivroRepository {
         return resultado;
     }
 
-    // ------------------------------------------------------------------
-    // Salvar (INSERT ou UPDATE)
-    // ------------------------------------------------------------------
 
     public Livro salvar(Livro livro) {
         if (livro.getId() == 0) {
@@ -161,9 +141,6 @@ public class LivroRepository {
         return livro;
     }
 
-    // ------------------------------------------------------------------
-    // Remover
-    // ------------------------------------------------------------------
 
     public boolean remover(int id) {
         String sql = "DELETE FROM livro WHERE id = ?";
@@ -182,18 +159,6 @@ public class LivroRepository {
         }
         return false;
     }
-
-    // ------------------------------------------------------------------
-    // Persistir (mantido por compatibilidade com view.EstoquePanel)
-    // ------------------------------------------------------------------
-
-    public void persistir() {
-        // Sem ação necessária: cada operação já persiste no banco imediatamente.
-    }
-
-    // ------------------------------------------------------------------
-    // Mapeamento ResultSet -> model.Livro
-    // ------------------------------------------------------------------
 
     private Livro mapear(ResultSet rs) throws SQLException {
         return new Livro(

@@ -1,17 +1,16 @@
 package view;
 
-import model.Aluno;
-import model.Livro;
-import model.Reserva;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import model.Aluno;
+import model.Livro;
+import model.Reserva;
 
 public class ReservaPanel extends JPanel {
 
@@ -62,7 +61,6 @@ public class ReservaPanel extends JPanel {
         }
     }
 
-    // ------------------------------------------------------------
     private JPanel criarPainelFormulario() {
         JPanel painel = new JPanel();
         painel.setBorder(BorderFactory.createTitledBorder("Registrar model.Reserva"));
@@ -140,7 +138,6 @@ public class ReservaPanel extends JPanel {
         }
     }
 
-    // ------------------------------------------------------------
     private JPanel criarPainelTabela() {
         JPanel painel = new JPanel(new BorderLayout(5, 5));
         painel.setBorder(BorderFactory.createTitledBorder("Consulta de Reservas"));
@@ -188,9 +185,6 @@ public class ReservaPanel extends JPanel {
         return painel;
     }
 
-    // ------------------------------------------------------------
-    // Acoes
-    // ------------------------------------------------------------
     private void registrarReserva(ActionEvent e) {
         ComboItem aluno = (ComboItem) comboAluno.getSelectedItem();
         ComboItem livroItem = (ComboItem) comboLivro.getSelectedItem();

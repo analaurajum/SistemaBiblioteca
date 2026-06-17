@@ -1,18 +1,13 @@
 package view;
 
 import dao.ConexaoDB;
-import model.Funcionario;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import model.Funcionario;
 
 public class FuncionarioRepository {
-
-    // ------------------------------------------------------------------
-    // Listagem
-    // ------------------------------------------------------------------
 
     public List<Funcionario> listarTodos() {
         String sql = "SELECT id, nome, cargo, matricula_funcional, email, telefone FROM funcionario ORDER BY nome";
@@ -29,10 +24,6 @@ public class FuncionarioRepository {
         return lista;
     }
 
-    // ------------------------------------------------------------------
-    // Busca por ID
-    // ------------------------------------------------------------------
-
     public Optional<Funcionario> buscarPorId(int id) {
         String sql = "SELECT id, nome, cargo, matricula_funcional, email, telefone FROM funcionario WHERE id = ?";
         try (Connection conn = ConexaoDB.conectar();
@@ -48,10 +39,6 @@ public class FuncionarioRepository {
         }
         return Optional.empty();
     }
-
-    // ------------------------------------------------------------------
-    // Busca por nome ou matrícula funcional
-    // ------------------------------------------------------------------
 
     public List<Funcionario> buscarPorNomeOuMatricula(String termo) {
         String sql = "SELECT id, nome, cargo, matricula_funcional, email, telefone FROM funcionario " +
@@ -72,10 +59,6 @@ public class FuncionarioRepository {
         }
         return resultado;
     }
-
-    // ------------------------------------------------------------------
-    // Salvar (INSERT ou UPDATE)
-    // ------------------------------------------------------------------
 
     public Funcionario salvar(Funcionario funcionario) {
         if (funcionario.getId() == 0) {
@@ -129,10 +112,6 @@ public class FuncionarioRepository {
         return funcionario;
     }
 
-    // ------------------------------------------------------------------
-    // Remover
-    // ------------------------------------------------------------------
-
     public boolean remover(int id) {
         String sql = "DELETE FROM funcionario WHERE id = ?";
         try (Connection conn = ConexaoDB.conectar();
@@ -151,10 +130,6 @@ public class FuncionarioRepository {
         return false;
     }
 
-    // ------------------------------------------------------------------
-    // Verificar matrícula funcional duplicada
-    // ------------------------------------------------------------------
-
     public boolean existeMatricula(String matricula, int idIgnorar) {
         String sql = "SELECT COUNT(*) FROM funcionario WHERE LOWER(matricula_funcional) = LOWER(?) AND id <> ?";
         try (Connection conn = ConexaoDB.conectar();
@@ -171,10 +146,6 @@ public class FuncionarioRepository {
         }
         return false;
     }
-
-    // ------------------------------------------------------------------
-    // Mapeamento ResultSet -> model.Funcionario
-    // ------------------------------------------------------------------
 
     private Funcionario mapear(ResultSet rs) throws SQLException {
         return new Funcionario(

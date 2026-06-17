@@ -1,18 +1,13 @@
 package view;
 
 import dao.ConexaoDB;
-import model.Emprestimo;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import model.Emprestimo;
 
 public class EmprestimoRepository {
-
-    // ------------------------------------------------------------------
-    // Listagem (atualiza status ATRASADO antes de retornar)
-    // ------------------------------------------------------------------
 
     public List<Emprestimo> listarTodos() {
         atualizarStatusAtrasados();
@@ -31,10 +26,6 @@ public class EmprestimoRepository {
         return lista;
     }
 
-    // ------------------------------------------------------------------
-    // Busca por ID
-    // ------------------------------------------------------------------
-
     public Optional<Emprestimo> buscarPorId(int id) {
         String sql = "SELECT id, aluno_id, livro_id, funcionario_id, data_emprestimo, " +
                 "data_prevista_devolucao, data_devolucao, status FROM emprestimo WHERE id = ?";
@@ -52,9 +43,6 @@ public class EmprestimoRepository {
         return Optional.empty();
     }
 
-    // ------------------------------------------------------------------
-    // Empréstimos ativos de um livro (sem data de devolução)
-    // ------------------------------------------------------------------
 
     public List<Emprestimo> buscarAtivosPorLivro(int livroId) {
         String sql = "SELECT id, aluno_id, livro_id, funcionario_id, data_emprestimo, " +
@@ -75,10 +63,6 @@ public class EmprestimoRepository {
         return resultado;
     }
 
-    // ------------------------------------------------------------------
-    // Empréstimos de um aluno
-    // ------------------------------------------------------------------
-
     public List<Emprestimo> buscarPorAluno(int alunoId) {
         String sql = "SELECT id, aluno_id, livro_id, funcionario_id, data_emprestimo, " +
                 "data_prevista_devolucao, data_devolucao, status FROM emprestimo " +
@@ -97,10 +81,6 @@ public class EmprestimoRepository {
         }
         return resultado;
     }
-
-    // ------------------------------------------------------------------
-    // Salvar (INSERT ou UPDATE)
-    // ------------------------------------------------------------------
 
     public Emprestimo salvar(Emprestimo emprestimo) {
         if (emprestimo.getId() == 0) {
@@ -163,10 +143,6 @@ public class EmprestimoRepository {
         return emprestimo;
     }
 
-    // ------------------------------------------------------------------
-    // Remover
-    // ------------------------------------------------------------------
-
     public boolean remover(int id) {
         String sql = "DELETE FROM emprestimo WHERE id = ?";
         try (Connection conn = ConexaoDB.conectar();
@@ -185,10 +161,6 @@ public class EmprestimoRepository {
         return false;
     }
 
-    // ------------------------------------------------------------------
-    // Atualiza para ATRASADO registros vencidos não devolvidos
-    // ------------------------------------------------------------------
-
     private void atualizarStatusAtrasados() {
         String sql = "UPDATE emprestimo SET status = 'ATRASADO' " +
                 "WHERE data_devolucao IS NULL AND data_prevista_devolucao < CURDATE() AND status <> 'ATRASADO'";
@@ -202,10 +174,6 @@ public class EmprestimoRepository {
             System.out.println("Erro ao atualizar status de atrasos: " + e.getMessage());
         }
     }
-
-    // ------------------------------------------------------------------
-    // Mapeamento ResultSet -> model.Emprestimo
-    // ------------------------------------------------------------------
 
     private Emprestimo mapear(ResultSet rs) throws SQLException {
         Date dataDev = rs.getDate("data_devolucao");

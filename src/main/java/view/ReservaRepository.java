@@ -1,18 +1,13 @@
 package view;
 
 import dao.ConexaoDB;
-import model.Reserva;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import model.Reserva;
 
 public class ReservaRepository {
-
-    // ------------------------------------------------------------------
-    // Listagem (atualiza reservas expiradas antes de retornar)
-    // ------------------------------------------------------------------
 
     public List<Reserva> listarTodos() {
         atualizarExpiradas();
@@ -31,10 +26,6 @@ public class ReservaRepository {
         return lista;
     }
 
-    // ------------------------------------------------------------------
-    // Busca por ID
-    // ------------------------------------------------------------------
-
     public Optional<Reserva> buscarPorId(int id) {
         String sql = "SELECT id, aluno_id, livro_id, data_reserva, data_validade, status " +
                 "FROM reserva WHERE id = ?";
@@ -51,10 +42,6 @@ public class ReservaRepository {
         }
         return Optional.empty();
     }
-
-    // ------------------------------------------------------------------
-    // Reservas ATIVAS de um livro
-    // ------------------------------------------------------------------
 
     public List<Reserva> buscarAtivasPorLivro(int livroId) {
         atualizarExpiradas();
@@ -74,10 +61,6 @@ public class ReservaRepository {
         }
         return resultado;
     }
-
-    // ------------------------------------------------------------------
-    // Salvar (INSERT ou UPDATE)
-    // ------------------------------------------------------------------
 
     public Reserva salvar(Reserva reserva) {
         if (reserva.getId() == 0) {
@@ -133,10 +116,6 @@ public class ReservaRepository {
         return reserva;
     }
 
-    // ------------------------------------------------------------------
-    // Remover
-    // ------------------------------------------------------------------
-
     public boolean remover(int id) {
         String sql = "DELETE FROM reserva WHERE id = ?";
         try (Connection conn = ConexaoDB.conectar();
@@ -155,10 +134,6 @@ public class ReservaRepository {
         return false;
     }
 
-    // ------------------------------------------------------------------
-    // Marca reservas ATIVAS com data_validade vencida como EXPIRADA
-    // ------------------------------------------------------------------
-
     private void atualizarExpiradas() {
         String sql = "UPDATE reserva SET status = 'EXPIRADA' " +
                 "WHERE status = 'ATIVA' AND data_validade < CURDATE()";
@@ -172,10 +147,6 @@ public class ReservaRepository {
             System.out.println("Erro ao atualizar reservas expiradas: " + e.getMessage());
         }
     }
-
-    // ------------------------------------------------------------------
-    // Mapeamento ResultSet -> model.Reserva
-    // ------------------------------------------------------------------
 
     private Reserva mapear(ResultSet rs) throws SQLException {
         return new Reserva(

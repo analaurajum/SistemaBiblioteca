@@ -35,7 +35,6 @@ public class FuncionarioPanel extends JPanel {
         carregarTabela(repo.listarTodos());
     }
 
-    // ------------------------------------------------------------
     private JPanel criarPainelFormulario() {
         JPanel painel = new JPanel();
         painel.setBorder(BorderFactory.createTitledBorder("Cadastro de model.Funcionario"));
@@ -102,7 +101,6 @@ public class FuncionarioPanel extends JPanel {
         }
     }
 
-    // ------------------------------------------------------------
     private JPanel criarPainelTabela() {
         JPanel painel = new JPanel(new BorderLayout(5, 5));
         painel.setBorder(BorderFactory.createTitledBorder("Consulta de Funcionarios"));
@@ -148,7 +146,6 @@ public class FuncionarioPanel extends JPanel {
         return painel;
     }
 
-    // ------------------------------------------------------------
     private void salvar(ActionEvent e) {
         String nome = txtNome.getText().trim();
         String cargo = txtCargo.getText().trim();
