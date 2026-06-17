@@ -2,20 +2,14 @@ package model;
 
 public class Pessoa {
     private int id;
-    private String nome, cpf, email;
+    private String nome, matricula, email, telefone;
 
-    public Pessoa(int id, String nome, String cpf, String email){
+    public Pessoa(int id, String nome, String matricula, String email, String telefone){
         this.id = id;
         this.nome = nome;
-        this.cpf = cpf;
+        this.matricula = matricula;
         this.email = email;
-    }
-
-    public void exibirPessoa(){
-        System.out.println("ID: "+ id);
-        System.out.println("Cliente: "+ nome);
-        System.out.println("CPF: "+ cpf);
-        System.out.println("E-mail: "+ email);
+        this.telefone = telefone;
     }
 
     public int getId() {
@@ -34,12 +28,12 @@ public class Pessoa {
         this.nome = nome;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getMatricula() {
+        return matricula;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
     }
 
     public String getEmail() {
@@ -48,5 +42,24 @@ public class Pessoa {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    @Override
+    public String toString() {
+        return "model.Pessoa{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", matricula='" + matricula + '\'' +
+                ", email='" + email + '\'' +
+                ", telefone='" + telefone + '\'' +
+                '}';
     }
 }
