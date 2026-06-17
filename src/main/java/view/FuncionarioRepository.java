@@ -91,7 +91,7 @@ public class FuncionarioRepository {
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, funcionario.getNome());
             ps.setString(2, funcionario.getCargo());
-            ps.setString(3, funcionario.getMatriculaFuncional());
+            ps.setString(3, funcionario.getMatricula());
             ps.setString(4, funcionario.getEmail());
             ps.setString(5, funcionario.getTelefone());
             ps.executeUpdate();
@@ -113,7 +113,7 @@ public class FuncionarioRepository {
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, funcionario.getNome());
             ps.setString(2, funcionario.getCargo());
-            ps.setString(3, funcionario.getMatriculaFuncional());
+            ps.setString(3, funcionario.getMatricula());
             ps.setString(4, funcionario.getEmail());
             ps.setString(5, funcionario.getTelefone());
             ps.setInt(6, funcionario.getId());
