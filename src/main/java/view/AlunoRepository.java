@@ -1,18 +1,13 @@
 package view;
 
 import dao.ConexaoDB;
-import model.Aluno;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import model.Aluno;
 
 public class AlunoRepository {
-
-    // ------------------------------------------------------------------
-    // Listagem
-    // ------------------------------------------------------------------
 
     public List<Aluno> listarTodos() {
         String sql = "SELECT id, nome, matricula, curso, email, telefone FROM aluno ORDER BY nome";
@@ -29,10 +24,6 @@ public class AlunoRepository {
         return alunos;
     }
 
-    // ------------------------------------------------------------------
-    // Busca por ID
-    // ------------------------------------------------------------------
-
     public Optional<Aluno> buscarPorId(int id) {
         String sql = "SELECT id, nome, matricula, curso, email, telefone FROM aluno WHERE id = ?";
         try (Connection conn = ConexaoDB.conectar();
@@ -48,10 +39,6 @@ public class AlunoRepository {
         }
         return Optional.empty();
     }
-
-    // ------------------------------------------------------------------
-    // Busca por nome ou matrícula
-    // ------------------------------------------------------------------
 
     public List<Aluno> buscarPorNomeOuMatricula(String termo) {
         String sql = "SELECT id, nome, matricula, curso, email, telefone FROM aluno " +
@@ -72,10 +59,6 @@ public class AlunoRepository {
         }
         return resultado;
     }
-
-    // ------------------------------------------------------------------
-    // Salvar (INSERT ou UPDATE)
-    // ------------------------------------------------------------------
 
     public Aluno salvar(Aluno aluno) {
         if (aluno.getId() == 0) {
@@ -129,10 +112,6 @@ public class AlunoRepository {
         return aluno;
     }
 
-    // ------------------------------------------------------------------
-    // Remover
-    // ------------------------------------------------------------------
-
     public boolean remover(int id) {
         String sql = "DELETE FROM aluno WHERE id = ?";
         try (Connection conn = ConexaoDB.conectar();
@@ -151,10 +130,6 @@ public class AlunoRepository {
         return false;
     }
 
-    // ------------------------------------------------------------------
-    // Verificar matrícula duplicada
-    // ------------------------------------------------------------------
-
     public boolean existeMatricula(String matricula, int idIgnorar) {
         String sql = "SELECT COUNT(*) FROM aluno WHERE LOWER(matricula) = LOWER(?) AND id <> ?";
         try (Connection conn = ConexaoDB.conectar();
@@ -171,10 +146,6 @@ public class AlunoRepository {
         }
         return false;
     }
-
-    // ------------------------------------------------------------------
-    // Mapeamento ResultSet -> model.Aluno
-    // ------------------------------------------------------------------
 
     private Aluno mapear(ResultSet rs) throws SQLException {
         return new Aluno(

@@ -1,16 +1,15 @@
 package view;
 
 import controller.OpenLibraryService;
-import model.Livro;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.Optional;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import model.Livro;
 
-public class EstoquePanel extends JPanel {
+public class LivroPanel extends JPanel {
 
     private final LivroRepository repo;
     private final OpenLibraryService openLibrary = new OpenLibraryService();
@@ -34,7 +33,7 @@ public class EstoquePanel extends JPanel {
 
     private int idEmEdicao = 0;
 
-    public EstoquePanel(LivroRepository repo) {
+    public LivroPanel(LivroRepository repo) {
         this.repo = repo;
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -50,9 +49,6 @@ public class EstoquePanel extends JPanel {
         carregarTabela(repo.listarTodos());
     }
 
-    // ------------------------------------------------------------
-    // Busca na Open Library API
-    // ------------------------------------------------------------
     private JPanel criarPainelBuscaApi() {
         JPanel painel = new JPanel(new BorderLayout(5, 5));
         painel.setBorder(BorderFactory.createTitledBorder("Buscar livro na Open Library API (openlibrary.org)"));
@@ -122,7 +118,7 @@ public class EstoquePanel extends JPanel {
                 try {
                     List<OpenLibraryService.LivroResultado> resultados = get();
                     if (resultados.isEmpty()) {
-                        JOptionPane.showMessageDialog(EstoquePanel.this,
+                        JOptionPane.showMessageDialog(LivroPanel.this,
                                 "Nenhum resultado encontrado na Open Library para: " + termo,
                                 "Busca", JOptionPane.INFORMATION_MESSAGE);
                     } else {
@@ -131,7 +127,7 @@ public class EstoquePanel extends JPanel {
                         }
                     }
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(EstoquePanel.this,
+                    JOptionPane.showMessageDialog(LivroPanel.this,
                             "Erro ao consultar a Open Library API:\n" + ex.getMessage()
                                     + "\n\nVerifique sua conexao com a internet.",
                             "Erro de Conexao", JOptionPane.ERROR_MESSAGE);
@@ -164,9 +160,6 @@ public class EstoquePanel extends JPanel {
         carregarImagemAsync(lr.capaUrl, lblCapa);
     }
 
-    /**
-     * Carrega uma imagem de uma URL em background e exibe no JLabel informado.
-     */
     private void carregarImagemAsync(String urlImagem, JLabel destino) {
         destino.setText("Carregando...");
         destino.setIcon(null);
@@ -202,9 +195,6 @@ public class EstoquePanel extends JPanel {
         worker.execute();
     }
 
-    // ------------------------------------------------------------
-    // Formulario de cadastro manual / edicao
-    // ------------------------------------------------------------
     private JPanel criarPainelFormulario() {
         JPanel painel = new JPanel();
         painel.setBorder(BorderFactory.createTitledBorder("Cadastro de model.Livro no Estoque"));
@@ -267,9 +257,6 @@ public class EstoquePanel extends JPanel {
         return painel;
     }
 
-    // ------------------------------------------------------------
-    // Tabela de estoque
-    // ------------------------------------------------------------
     private JPanel criarPainelTabela() {
         JPanel painel = new JPanel(new BorderLayout(5, 5));
         painel.setBorder(BorderFactory.createTitledBorder("Consulta de Estoque"));
@@ -317,9 +304,6 @@ public class EstoquePanel extends JPanel {
         return painel;
     }
 
-    // ------------------------------------------------------------
-    // Acoes CRUD
-    // ------------------------------------------------------------
     private void salvar(ActionEvent e) {
         String isbn = txtIsbn.getText().trim();
         String titulo = txtTitulo.getText().trim();

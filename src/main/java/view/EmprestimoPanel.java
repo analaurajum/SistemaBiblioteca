@@ -1,9 +1,5 @@
 package view;
 
-import model.*;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.time.LocalDate;
@@ -11,6 +7,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import model.*;
 
 public class EmprestimoPanel extends JPanel {
 
@@ -51,9 +50,6 @@ public class EmprestimoPanel extends JPanel {
         carregarTabela(repo.listarTodos());
     }
 
-    // ------------------------------------------------------------
-    // Item generico para combos (id + texto exibido)
-    // ------------------------------------------------------------
     private static class ComboItem {
         int id;
         String texto;
@@ -69,7 +65,6 @@ public class EmprestimoPanel extends JPanel {
         }
     }
 
-    // ------------------------------------------------------------
     private JPanel criarPainelFormulario() {
         JPanel painel = new JPanel();
         painel.setBorder(BorderFactory.createTitledBorder("Registrar Empréstimo"));
@@ -162,7 +157,6 @@ public class EmprestimoPanel extends JPanel {
         }
     }
 
-    // ------------------------------------------------------------
     private JPanel criarPainelTabela() {
         JPanel painel = new JPanel(new BorderLayout(5, 5));
         painel.setBorder(BorderFactory.createTitledBorder("Consulta de Empréstimos"));
@@ -213,9 +207,6 @@ public class EmprestimoPanel extends JPanel {
         return painel;
     }
 
-    // ------------------------------------------------------------
-    // Acoes
-    // ------------------------------------------------------------
     private void registrarEmprestimo(ActionEvent e) {
         ComboItem aluno = (ComboItem) comboAluno.getSelectedItem();
         ComboItem livroItem = (ComboItem) comboLivro.getSelectedItem();

@@ -1,13 +1,12 @@
 package view;
 
-import model.Aluno;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.Optional;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import model.Aluno;
 
 public class AlunoPanel extends JPanel {
 
@@ -36,9 +35,6 @@ public class AlunoPanel extends JPanel {
         carregarTabela(repo.listarTodos());
     }
 
-    // ------------------------------------------------------------
-    // Formulario
-    // ------------------------------------------------------------
     private JPanel criarPainelFormulario() {
         JPanel painel = new JPanel();
         painel.setBorder(BorderFactory.createTitledBorder("Cadastro de model.Aluno"));
@@ -105,9 +101,6 @@ public class AlunoPanel extends JPanel {
         }
     }
 
-    // ------------------------------------------------------------
-    // Tabela / Busca
-    // ------------------------------------------------------------
     private JPanel criarPainelTabela() {
         JPanel painel = new JPanel(new BorderLayout(5, 5));
         painel.setBorder(BorderFactory.createTitledBorder("Consulta de Alunos"));
@@ -153,9 +146,6 @@ public class AlunoPanel extends JPanel {
         return painel;
     }
 
-    // ------------------------------------------------------------
-    // Acoes
-    // ------------------------------------------------------------
     private void salvar(ActionEvent e) {
         String nome = txtNome.getText().trim();
         String matricula = txtMatricula.getText().trim();

@@ -1,9 +1,8 @@
 package controller;
 
-import view.*;
-
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
+import view.*;
 
 public class BibliotecaApp extends JFrame {
 
@@ -28,7 +27,7 @@ public class BibliotecaApp extends JFrame {
         // Abas
         tabs.addTab("Alunos", new AlunoPanel(alunoRepo));
         tabs.addTab("Funcionarios", new FuncionarioPanel(funcionarioRepo));
-        tabs.addTab("Estoque (Livros)", new EstoquePanel(livroRepo));
+        tabs.addTab("Estoque (Livros)", new LivroPanel(livroRepo));
         tabs.addTab("Emprestimos", new EmprestimoPanel(emprestimoRepo, alunoRepo, livroRepo, funcionarioRepo, reservaRepo));
         tabs.addTab("Reservas", new ReservaPanel(reservaRepo, alunoRepo, livroRepo, emprestimoRepo));
 
