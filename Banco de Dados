@@ -1,71 +1,56 @@
 CREATE DATABASE IF NOT EXISTS biblioteca;
 USE biblioteca;
 
--- ------------------------------------------------------------
--- Tabela: aluno
--- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS aluno (
-    id          INT AUTO_INCREMENT PRIMARY KEY,
-    nome        VARCHAR(150) NOT NULL,
-    matricula   VARCHAR(50)  NOT NULL UNIQUE,
-    curso       VARCHAR(100),
-    email       VARCHAR(150),
-    telefone    VARCHAR(30)
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(150) NOT NULL,
+    matricula VARCHAR(50)  NOT NULL UNIQUE,
+    curso VARCHAR(100),
+    email VARCHAR(150),
+    telefone VARCHAR(30)
 ) ENGINE=InnoDB;
 
--- ------------------------------------------------------------
--- Tabela: funcionario
--- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS funcionario (
-    id                  INT AUTO_INCREMENT PRIMARY KEY,
-    nome                VARCHAR(150) NOT NULL,
-    cargo               VARCHAR(100),
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(150) NOT NULL,
+    cargo VARCHAR(100),
     matricula_funcional VARCHAR(50)  NOT NULL UNIQUE,
-    email               VARCHAR(150),
-    telefone            VARCHAR(30)
+    email VARCHAR(150),
+    telefone VARCHAR(30)
 ) ENGINE=InnoDB;
 
--- ------------------------------------------------------------
--- Tabela: livro
--- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS livro (
-    id                    INT AUTO_INCREMENT PRIMARY KEY,
-    isbn                  VARCHAR(20)  NOT NULL UNIQUE,
-    titulo                VARCHAR(255) NOT NULL,
-    autor                 VARCHAR(150),
-    ano_publicacao        VARCHAR(10),
-    capa_url              VARCHAR(500),
-    quantidade_total      INT NOT NULL DEFAULT 0,
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    isbn VARCHAR(20)  NOT NULL UNIQUE,
+    titulo VARCHAR(255) NOT NULL,
+    autor VARCHAR(150),
+    ano_publicacao VARCHAR(10),
+    capa_url  VARCHAR(500),
+    quantidade_total INT NOT NULL DEFAULT 0,
     quantidade_disponivel INT NOT NULL DEFAULT 0
 ) ENGINE=InnoDB;
 
--- ------------------------------------------------------------
--- Tabela: emprestimo
--- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS emprestimo (
-    id                      INT AUTO_INCREMENT PRIMARY KEY,
-    aluno_id                INT         NOT NULL,
-    livro_id                INT         NOT NULL,
-    funcionario_id          INT         NOT NULL,
-    data_emprestimo         DATE        NOT NULL,
-    data_prevista_devolucao DATE        NOT NULL,
-    data_devolucao          DATE        NULL,          -- NULL = ainda não devolvido
-    status                  VARCHAR(20) NOT NULL DEFAULT 'ATIVO',
-    CONSTRAINT fk_emp_aluno       FOREIGN KEY (aluno_id)       REFERENCES aluno(id),
-    CONSTRAINT fk_emp_livro       FOREIGN KEY (livro_id)       REFERENCES livro(id),
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    aluno_id INT NOT NULL,
+    livro_id INT NOT NULL,
+    funcionario_id INT NOT NULL,
+    data_emprestimo DATE NOT NULL,
+    data_prevista_devolucao DATE NOT NULL,
+    data_devolucao DATE NULL,  -- NULL = ainda não devolvido
+    status VARCHAR(20) NOT NULL DEFAULT 'ATIVO',
+    CONSTRAINT fk_emp_aluno FOREIGN KEY (aluno_id) REFERENCES aluno(id),
+    CONSTRAINT fk_emp_livro FOREIGN KEY (livro_id) REFERENCES livro(id),
     CONSTRAINT fk_emp_funcionario FOREIGN KEY (funcionario_id) REFERENCES funcionario(id)
 ) ENGINE=InnoDB;
 
--- ------------------------------------------------------------
--- Tabela: reserva
--- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS reserva (
-    id            INT AUTO_INCREMENT PRIMARY KEY,
-    aluno_id      INT         NOT NULL,
-    livro_id      INT         NOT NULL,
-    data_reserva  DATE        NOT NULL,
-    data_validade DATE        NOT NULL,
-    status        VARCHAR(20) NOT NULL DEFAULT 'ATIVA',   -- ATIVA / CANCELADA / CONVERTIDA / EXPIRADA
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    aluno_id INT NOT NULL,
+    livro_id INT NOT NULL,
+    data_reserva DATE NOT NULL,
+    data_validade DATE NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'ATIVA',   -- ATIVA / CANCELADA / CONVERTIDA / EXPIRADA
     CONSTRAINT fk_res_aluno FOREIGN KEY (aluno_id) REFERENCES aluno(id),
     CONSTRAINT fk_res_livro FOREIGN KEY (livro_id) REFERENCES livro(id)
 ) ENGINE=InnoDB;
