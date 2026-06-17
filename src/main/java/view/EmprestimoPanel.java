@@ -72,7 +72,7 @@ public class EmprestimoPanel extends JPanel {
     // ------------------------------------------------------------
     private JPanel criarPainelFormulario() {
         JPanel painel = new JPanel();
-        painel.setBorder(BorderFactory.createTitledBorder("Registrar model.Emprestimo"));
+        painel.setBorder(BorderFactory.createTitledBorder("Registrar Empréstimo"));
         painel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -93,32 +93,32 @@ public class EmprestimoPanel extends JPanel {
         int linha = 0;
 
         gbc.gridy = linha;
-        gbc.gridx = 0; gbc.weightx = 0; painel.add(new JLabel("model.Aluno:"), gbc);
+        gbc.gridx = 0; gbc.weightx = 0; painel.add(new JLabel("Aluno:"), gbc);
         gbc.gridx = 1; gbc.weightx = 1; gbc.gridwidth = 3; painel.add(comboAluno, gbc);
         gbc.gridwidth = 1;
         linha++;
 
         gbc.gridy = linha;
-        gbc.gridx = 0; gbc.weightx = 0; painel.add(new JLabel("model.Livro:"), gbc);
+        gbc.gridx = 0; gbc.weightx = 0; painel.add(new JLabel("Livro:"), gbc);
         gbc.gridx = 1; gbc.weightx = 1; gbc.gridwidth = 3; painel.add(comboLivro, gbc);
         gbc.gridwidth = 1;
         linha++;
 
         gbc.gridy = linha;
-        gbc.gridx = 0; gbc.weightx = 0; painel.add(new JLabel("model.Funcionario Responsavel:"), gbc);
+        gbc.gridx = 0; gbc.weightx = 0; painel.add(new JLabel("Funcionário Responsável:"), gbc);
         gbc.gridx = 1; gbc.weightx = 1; gbc.gridwidth = 3; painel.add(comboFuncionario, gbc);
         gbc.gridwidth = 1;
         linha++;
 
         gbc.gridy = linha;
-        gbc.gridx = 0; gbc.weightx = 0; painel.add(new JLabel("Data model.Emprestimo (dd/MM/yyyy):"), gbc);
+        gbc.gridx = 0; gbc.weightx = 0; painel.add(new JLabel("Data Empréstimo (dd/MM/yyyy):"), gbc);
         gbc.gridx = 1; gbc.weightx = 1; painel.add(txtDataEmprestimo, gbc);
-        gbc.gridx = 2; gbc.weightx = 0; painel.add(new JLabel("Devolucao Prevista:"), gbc);
+        gbc.gridx = 2; gbc.weightx = 0; painel.add(new JLabel("Devolução Prevista:"), gbc);
         gbc.gridx = 3; gbc.weightx = 1; painel.add(txtDataPrevista, gbc);
         linha++;
 
         JPanel botoes = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton btnSalvar = new JButton("Registrar model.Emprestimo");
+        JButton btnSalvar = new JButton("Registrar Empréstimo");
         JButton btnDevolver = new JButton("Marcar como Devolvido");
         JButton btnNovo = new JButton("Novo");
         JButton btnAtualizarListas = new JButton("Atualizar Listas");
@@ -165,11 +165,11 @@ public class EmprestimoPanel extends JPanel {
     // ------------------------------------------------------------
     private JPanel criarPainelTabela() {
         JPanel painel = new JPanel(new BorderLayout(5, 5));
-        painel.setBorder(BorderFactory.createTitledBorder("Consulta de Emprestimos"));
+        painel.setBorder(BorderFactory.createTitledBorder("Consulta de Empréstimos"));
 
         JPanel painelBusca = new JPanel(new FlowLayout(FlowLayout.LEFT));
         txtBusca = new JTextField(20);
-        JButton btnBuscarAluno = new JButton("Filtrar por Nome do model.Aluno");
+        JButton btnBuscarAluno = new JButton("Filtrar por Nome do Aluno");
         JButton btnListarTodos = new JButton("Listar Todos");
 
         btnBuscarAluno.addActionListener(e -> {
@@ -194,7 +194,7 @@ public class EmprestimoPanel extends JPanel {
         painelBusca.add(btnListarTodos);
 
         tableModel = new DefaultTableModel(new Object[]{
-                "ID", "model.Aluno", "model.Livro", "model.Funcionario", "Data model.Emprestimo", "Devolucao Prevista", "Data Devolucao", "Status"
+                "ID", "Aluno", "Livro", "Funcionario", "Data Emprestimo", "Devolução Prevista", "Data Devolução", "Status"
         }, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -223,8 +223,8 @@ public class EmprestimoPanel extends JPanel {
 
         if (aluno == null || livroItem == null || funcionario == null) {
             JOptionPane.showMessageDialog(this,
-                    "Cadastre ao menos um model.Aluno, um model.Livro no estoque e um model.Funcionario antes de registrar o emprestimo.",
-                    "Validacao", JOptionPane.WARNING_MESSAGE);
+                    "Cadastre ao menos um Aluno, um Livro no estoque e um Funcionário antes de registrar o empréstimo.",
+                    "Validação", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -234,21 +234,21 @@ public class EmprestimoPanel extends JPanel {
             dataEmprestimo = LocalDate.parse(txtDataEmprestimo.getText().trim(), FMT);
             dataPrevista = LocalDate.parse(txtDataPrevista.getText().trim(), FMT);
         } catch (DateTimeParseException ex) {
-            JOptionPane.showMessageDialog(this, "Datas invalidas. Use o formato dd/MM/yyyy.",
-                    "Validacao", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Datas inválidas. Use o formato dd/MM/yyyy.",
+                    "Validação", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         if (dataPrevista.isBefore(dataEmprestimo)) {
             JOptionPane.showMessageDialog(this,
-                    "A data prevista de devolucao nao pode ser anterior a data do emprestimo.",
-                    "Validacao", JOptionPane.WARNING_MESSAGE);
+                    "A data prevista de devolução não pode ser anterior a data do empréstimo.",
+                    "Validação", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         Optional<Livro> optLivro = livroRepo.buscarPorId(livroItem.id);
         if (optLivro.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "model.Livro nao encontrado no estoque.",
+            JOptionPane.showMessageDialog(this, "Livro não encontrado no estoque.",
                     "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -258,8 +258,8 @@ public class EmprestimoPanel extends JPanel {
             // Novo emprestimo: precisa haver exemplar disponivel
             if (livro.getQuantidadeDisponivel() <= 0) {
                 JOptionPane.showMessageDialog(this,
-                        "Nao ha exemplares disponiveis deste livro no estoque.",
-                        "Validacao", JOptionPane.WARNING_MESSAGE);
+                        "Não há exemplares disponíveis deste livro no estoque.",
+                        "Validação", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -301,14 +301,14 @@ public class EmprestimoPanel extends JPanel {
         limparFormulario();
         atualizarCombos();
         carregarTabela(repo.listarTodos());
-        JOptionPane.showMessageDialog(this, "model.Emprestimo salvo com sucesso!");
+        JOptionPane.showMessageDialog(this, "Empréstimo salvo com sucesso!");
     }
 
     private void marcarDevolvido(ActionEvent e) {
         int linha = tabela.getSelectedRow();
         if (linha == -1) {
-            JOptionPane.showMessageDialog(this, "Selecione um emprestimo na tabela.",
-                    "Atencao", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Selecione um empréstimo na tabela.",
+                    "Atenção", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -318,8 +318,8 @@ public class EmprestimoPanel extends JPanel {
 
         Emprestimo emp = opt.get();
         if (emp.getDataDevolucao() != null) {
-            JOptionPane.showMessageDialog(this, "Este emprestimo ja foi devolvido.",
-                    "Atencao", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Este empréstimo já foi devolvido.",
+                    "Atenção", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
@@ -340,23 +340,23 @@ public class EmprestimoPanel extends JPanel {
         limparFormulario();
         atualizarCombos();
         carregarTabela(repo.listarTodos());
-        JOptionPane.showMessageDialog(this, "Devolucao registrada com sucesso! Estoque atualizado.");
+        JOptionPane.showMessageDialog(this, "Devolução registrada com sucesso! Estoque atualizado.");
     }
 
     private void remover(ActionEvent e) {
         int linha = tabela.getSelectedRow();
         if (linha == -1) {
-            JOptionPane.showMessageDialog(this, "Selecione um emprestimo na tabela.",
-                    "Atencao", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Selecione um empréstimo na tabela.",
+                    "Atenção", JOptionPane.WARNING_MESSAGE);
             return;
         }
         int id = (int) tableModel.getValueAt(linha, 0);
 
         Optional<Emprestimo> opt = repo.buscarPorId(id);
         int confirm = JOptionPane.showConfirmDialog(this,
-                "Deseja realmente remover este registro de emprestimo?\n"
-                        + "Atencao: se o emprestimo estiver ATIVO/ATRASADO, o exemplar voltara ao estoque.",
-                "Confirmacao", JOptionPane.YES_NO_OPTION);
+                "Deseja realmente remover este registro de empréstimo?\n"
+                        + "Atenção: se o empréstimo estiver ATIVO/ATRASADO, o exemplar voltará ao estoque.",
+                "Confirmação", JOptionPane.YES_NO_OPTION);
         if (confirm != JOptionPane.YES_OPTION) return;
 
         if (opt.isPresent()) {
