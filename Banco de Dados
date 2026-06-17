@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS funcionario (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(150) NOT NULL,
     cargo VARCHAR(100),
-    matricula_funcional VARCHAR(50)  NOT NULL UNIQUE,
+    matricula VARCHAR(50)  NOT NULL UNIQUE,
     email VARCHAR(150),
     telefone VARCHAR(30)
 ) ENGINE=InnoDB;
