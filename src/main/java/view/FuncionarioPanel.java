@@ -1,13 +1,12 @@
 package view;
 
-import model.Funcionario;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.Optional;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import model.Funcionario;
 
 public class FuncionarioPanel extends JPanel {
 
@@ -55,7 +54,7 @@ public class FuncionarioPanel extends JPanel {
         int linha = 0;
 
         adicionarCampo(painel, gbc, linha++, "Nome:", txtNome, "Cargo:", txtCargo);
-        adicionarCampo(painel, gbc, linha++, "Matricula Funcional:", txtMatricula, "Telefone:", txtTelefone);
+        adicionarCampo(painel, gbc, linha++, "Matricula:", txtMatricula, "Telefone:", txtTelefone);
         adicionarCampo(painel, gbc, linha++, "Email:", txtEmail, null, null);
 
         JPanel botoes = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -131,7 +130,7 @@ public class FuncionarioPanel extends JPanel {
         painelBusca.add(btnBuscar);
         painelBusca.add(btnListarTodos);
 
-        tableModel = new DefaultTableModel(new Object[]{"ID", "Nome", "Cargo", "Matricula Funcional", "Email", "Telefone"}, 0) {
+        tableModel = new DefaultTableModel(new Object[]{"ID", "Nome", "Cargo", "Matricula", "Email", "Telefone"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -158,7 +157,7 @@ public class FuncionarioPanel extends JPanel {
         String telefone = txtTelefone.getText().trim();
 
         if (nome.isEmpty() || matricula.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Nome e Matricula Funcional sao obrigatorios.",
+            JOptionPane.showMessageDialog(this, "Nome e Matricula sao obrigatorios.",
                     "Validacao", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -204,7 +203,7 @@ public class FuncionarioPanel extends JPanel {
             idEmEdicao = f.getId();
             txtNome.setText(f.getNome());
             txtCargo.setText(f.getCargo());
-            txtMatricula.setText(f.getMatriculaFuncional());
+            txtMatricula.setText(f.getMatricula());
             txtEmail.setText(f.getEmail());
             txtTelefone.setText(f.getTelefone());
         });
@@ -224,7 +223,7 @@ public class FuncionarioPanel extends JPanel {
         tableModel.setRowCount(0);
         for (Funcionario f : funcionarios) {
             tableModel.addRow(new Object[]{
-                    f.getId(), f.getNome(), f.getCargo(), f.getMatriculaFuncional(), f.getEmail(), f.getTelefone()
+                    f.getId(), f.getNome(), f.getCargo(), f.getMatricula(), f.getEmail(), f.getTelefone()
             });
         }
     }
