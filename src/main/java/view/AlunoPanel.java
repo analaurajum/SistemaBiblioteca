@@ -37,7 +37,7 @@ public class AlunoPanel extends JPanel {
 
     private JPanel criarPainelFormulario() {
         JPanel painel = new JPanel();
-        painel.setBorder(BorderFactory.createTitledBorder("Cadastro de model.Aluno"));
+        painel.setBorder(BorderFactory.createTitledBorder("Cadastro de Aluno"));
         painel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -170,7 +170,7 @@ public class AlunoPanel extends JPanel {
 
         limparFormulario();
         carregarTabela(repo.listarTodos());
-        JOptionPane.showMessageDialog(this, "model.Aluno salvo com sucesso!");
+        JOptionPane.showMessageDialog(this, "Aluno salvo com sucesso!");
     }
 
     private void remover(ActionEvent e) {

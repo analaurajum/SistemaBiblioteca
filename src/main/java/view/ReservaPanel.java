@@ -63,7 +63,7 @@ public class ReservaPanel extends JPanel {
 
     private JPanel criarPainelFormulario() {
         JPanel painel = new JPanel();
-        painel.setBorder(BorderFactory.createTitledBorder("Registrar model.Reserva"));
+        painel.setBorder(BorderFactory.createTitledBorder("Registrar Reserva"));
         painel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -79,13 +79,13 @@ public class ReservaPanel extends JPanel {
         int linha = 0;
 
         gbc.gridy = linha;
-        gbc.gridx = 0; gbc.weightx = 0; painel.add(new JLabel("model.Aluno:"), gbc);
+        gbc.gridx = 0; gbc.weightx = 0; painel.add(new JLabel("Aluno:"), gbc);
         gbc.gridx = 1; gbc.weightx = 1; gbc.gridwidth = 3; painel.add(comboAluno, gbc);
         gbc.gridwidth = 1;
         linha++;
 
         gbc.gridy = linha;
-        gbc.gridx = 0; gbc.weightx = 0; painel.add(new JLabel("model.Livro:"), gbc);
+        gbc.gridx = 0; gbc.weightx = 0; painel.add(new JLabel("Livro:"), gbc);
         gbc.gridx = 1; gbc.weightx = 1; gbc.gridwidth = 3; painel.add(comboLivro, gbc);
         gbc.gridwidth = 1;
         linha++;
@@ -96,8 +96,8 @@ public class ReservaPanel extends JPanel {
         linha++;
 
         JPanel botoes = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton btnReservar = new JButton("Registrar model.Reserva");
-        JButton btnCancelar = new JButton("Cancelar model.Reserva Selecionada");
+        JButton btnReservar = new JButton("Registrar Reserva");
+        JButton btnCancelar = new JButton("Cancelar Reserva Selecionada");
         JButton btnAtualizarListas = new JButton("Atualizar Listas");
         JButton btnRemover = new JButton("Remover Selecionado");
 
@@ -144,7 +144,7 @@ public class ReservaPanel extends JPanel {
 
         JPanel painelBusca = new JPanel(new FlowLayout(FlowLayout.LEFT));
         txtBusca = new JTextField(20);
-        JButton btnBuscarAluno = new JButton("Filtrar por Nome do model.Aluno");
+        JButton btnBuscarAluno = new JButton("Filtrar por Nome do Aluno");
         JButton btnListarTodos = new JButton("Listar Todos");
 
         btnBuscarAluno.addActionListener(e -> {
@@ -169,7 +169,7 @@ public class ReservaPanel extends JPanel {
         painelBusca.add(btnListarTodos);
 
         tableModel = new DefaultTableModel(new Object[]{
-                "ID", "model.Aluno", "model.Livro", "Data model.Reserva", "Validade", "Status"
+                "ID", "Aluno", "Livro", "Data Reserva", "Validade", "Status"
         }, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -192,7 +192,7 @@ public class ReservaPanel extends JPanel {
 
         if (aluno == null || livroItem == null) {
             JOptionPane.showMessageDialog(this,
-                    "Cadastre ao menos um model.Aluno e um model.Livro no estoque antes de registrar a reserva.",
+                    "Cadastre ao menos um Aluno e um Livro no estoque antes de registrar a reserva.",
                     "Validacao", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -221,7 +221,7 @@ public class ReservaPanel extends JPanel {
         repo.salvar(reserva);
 
         carregarTabela(repo.listarTodos());
-        JOptionPane.showMessageDialog(this, "model.Reserva registrada com sucesso! Valida até " + reserva.getDataValidade().format(FMT) + ".");
+        JOptionPane.showMessageDialog(this, "Reserva registrada com sucesso! Valida até " + reserva.getDataValidade().format(FMT) + ".");
     }
 
     private void cancelarReserva(ActionEvent e) {

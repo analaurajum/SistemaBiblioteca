@@ -37,7 +37,7 @@ public class FuncionarioPanel extends JPanel {
 
     private JPanel criarPainelFormulario() {
         JPanel painel = new JPanel();
-        painel.setBorder(BorderFactory.createTitledBorder("Cadastro de model.Funcionario"));
+        painel.setBorder(BorderFactory.createTitledBorder("Cadastro de Funcionario"));
         painel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -170,7 +170,7 @@ public class FuncionarioPanel extends JPanel {
 
         limparFormulario();
         carregarTabela(repo.listarTodos());
-        JOptionPane.showMessageDialog(this, "model.Funcionario salvo com sucesso!");
+        JOptionPane.showMessageDialog(this, "Funcionario salvo com sucesso!");
     }
 
     private void remover(ActionEvent e) {

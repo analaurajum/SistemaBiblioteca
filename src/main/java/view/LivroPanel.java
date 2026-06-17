@@ -51,7 +51,7 @@ public class LivroPanel extends JPanel {
 
     private JPanel criarPainelBuscaApi() {
         JPanel painel = new JPanel(new BorderLayout(5, 5));
-        painel.setBorder(BorderFactory.createTitledBorder("Buscar livro na Open Library API (openlibrary.org)"));
+        painel.setBorder(BorderFactory.createTitledBorder("Buscar livro na Open Library API"));
 
         JPanel linhaBusca = new JPanel(new FlowLayout(FlowLayout.LEFT));
         txtBuscaApi = new JTextField(25);
@@ -73,7 +73,7 @@ public class LivroPanel extends JPanel {
         btnPreencher.addActionListener(e -> preencherComResultadoApi());
 
         lblCapa = new JLabel();
-        lblCapa.setPreferredSize(new Dimension(60, 80));
+        lblCapa.setPreferredSize(new Dimension(120, 160));
         lblCapa.setHorizontalAlignment(JLabel.CENTER);
         lblCapa.setBorder(BorderFactory.createEtchedBorder());
 
@@ -168,7 +168,7 @@ public class LivroPanel extends JPanel {
             protected ImageIcon doInBackground() {
                 try {
                     java.net.URL url = new java.net.URL(urlImagem);
-                    Image img = new ImageIcon(url).getImage().getScaledInstance(55, 75, Image.SCALE_SMOOTH);
+                    Image img = new ImageIcon(url).getImage().getScaledInstance(150, 200, Image.SCALE_SMOOTH);
                     return new ImageIcon(img);
                 } catch (Exception ex) {
                     return null;
@@ -197,7 +197,7 @@ public class LivroPanel extends JPanel {
 
     private JPanel criarPainelFormulario() {
         JPanel painel = new JPanel();
-        painel.setBorder(BorderFactory.createTitledBorder("Cadastro de model.Livro no Estoque"));
+        painel.setBorder(BorderFactory.createTitledBorder("Cadastro de Livro no Estoque"));
         painel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -356,7 +356,7 @@ public class LivroPanel extends JPanel {
 
         limparFormulario();
         carregarTabela(repo.listarTodos());
-        JOptionPane.showMessageDialog(this, "model.Livro salvo no estoque com sucesso!");
+        JOptionPane.showMessageDialog(this, "Livro salvo no estoque com sucesso!");
     }
 
     private void remover(ActionEvent e) {
