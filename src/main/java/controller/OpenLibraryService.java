@@ -37,8 +37,6 @@ public class OpenLibraryService {
         }
     }
 
-
-    /*Busca livros por termo geral (titulo, autor, etc.).*/
     public List<LivroResultado> buscarPorTermo(String termo) throws Exception {
         String query = URLEncoder.encode(termo, StandardCharsets.UTF_8.toString());
         String urlStr = SEARCH_URL + "?q=" + query + "&limit=15"
@@ -47,7 +45,6 @@ public class OpenLibraryService {
         return parsearDocs(json);
     }
 
-    /*Busca um livro especifico por ISBN.*/
     public List<LivroResultado> buscarPorIsbn(String isbn) throws Exception {
         String isbnLimpo = isbn.replaceAll("[^0-9Xx]", "");
         String urlStr = SEARCH_URL + "?isbn=" + URLEncoder.encode(isbnLimpo, StandardCharsets.UTF_8.toString())
@@ -56,7 +53,6 @@ public class OpenLibraryService {
         return parsearDocs(json);
     }
 
-    /*Monta a URL da capa do livro a partir do ISBN.*/
     public static String urlCapaPorIsbn(String isbn) {
         if (isbn == null || isbn.trim().isEmpty()) return null;
         String isbnLimpo = isbn.replaceAll("[^0-9Xx]", "");
