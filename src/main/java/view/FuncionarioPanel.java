@@ -176,14 +176,17 @@ public class FuncionarioPanel extends JPanel {
     private void remover(ActionEvent e) {
         int linha = tabela.getSelectedRow();
         if (linha == -1) {
-            JOptionPane.showMessageDialog(this, "Selecione um funcionario na tabela.",
-                    "Atencao", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Selecione um funcionario na tabela.","Atenção", JOptionPane.WARNING_MESSAGE);
             return;
         }
         int id = (int) tableModel.getValueAt(linha, 0);
         int confirm = JOptionPane.showConfirmDialog(this,
                 "Deseja realmente remover este funcionario?", "Confirmacao", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
+            if(repo.existeCadastroFuncionarioEmEmprestimo(id)){
+                JOptionPane.showMessageDialog(this, "Não é possível realizar exclusão do funcionário pois há empréstimo cadastrado.","Atenção", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
             repo.remover(id);
             limparFormulario();
             carregarTabela(repo.listarTodos());

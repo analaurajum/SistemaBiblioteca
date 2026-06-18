@@ -17,8 +17,6 @@ public class Aluno extends Pessoa implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Aluno{" +
-                "curso='" + curso + '\'' +
-                '}';
+        return "model.Aluno{" + "curso='" + curso + '\'' + '}';
     }
 }

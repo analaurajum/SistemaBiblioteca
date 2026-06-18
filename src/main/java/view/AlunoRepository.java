@@ -83,7 +83,7 @@ public class AlunoRepository {
                     aluno.setId(keys.getInt(1));
                 }
             }
-            System.out.println("model.Aluno cadastrado com sucesso!");
+            System.out.println("Aluno cadastrado com sucesso!");
         } catch (Exception e) {
             System.out.println("Erro ao cadastrar aluno: " + e.getMessage());
         }
@@ -102,9 +102,9 @@ public class AlunoRepository {
             ps.setInt(6, aluno.getId());
             int linhas = ps.executeUpdate();
             if (linhas > 0) {
-                System.out.println("model.Aluno atualizado com sucesso!");
+                System.out.println("Aluno atualizado com sucesso!");
             } else {
-                System.out.println("model.Aluno não encontrado.");
+                System.out.println("Aluno não encontrado.");
             }
         } catch (Exception e) {
             System.out.println("Erro ao atualizar aluno: " + e.getMessage());
@@ -119,10 +119,10 @@ public class AlunoRepository {
             ps.setInt(1, id);
             int linhas = ps.executeUpdate();
             if (linhas > 0) {
-                System.out.println("model.Aluno removido com sucesso!");
+                System.out.println("Aluno removido com sucesso!");
                 return true;
             } else {
-                System.out.println("model.Aluno não encontrado.");
+                System.out.println("Aluno não encontrado.");
             }
         } catch (Exception e) {
             System.out.println("Erro ao remover aluno: " + e.getMessage());
@@ -156,5 +156,37 @@ public class AlunoRepository {
                 rs.getString("email"),
                 rs.getString("telefone")
         );
+    }
+
+    public boolean existeCadastroAlunoEmReserva(int id) {
+        String sql = "SELECT COUNT(*) FROM reserva WHERE aluno_id = ?";
+        try (Connection conn = ConexaoDB.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao verificar matrícula: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean existeCadastroAlunoEmEmprestimo(int id) {
+        String sql = "SELECT COUNT(*) FROM emprestimo WHERE aluno_id = ?";
+        try (Connection conn = ConexaoDB.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao verificar matrícula: " + e.getMessage());
+        }
+        return false;
     }
 }

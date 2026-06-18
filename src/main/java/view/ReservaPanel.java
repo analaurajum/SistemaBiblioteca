@@ -117,7 +117,6 @@ public class ReservaPanel extends JPanel {
         painel.add(botoes, gbc);
 
         JLabel info = new JLabel("Obs: a reserva nao reduz o estoque disponivel; ela apenas registra interesse e prioridade.");
-        info.setFont(info.getFont().deriveFont(Font.ITALIC, 11f));
         gbc.gridy = ++linha;
         painel.add(info, gbc);
         gbc.gridwidth = 1;

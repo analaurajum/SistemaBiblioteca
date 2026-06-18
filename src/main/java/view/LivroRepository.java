@@ -172,4 +172,36 @@ public class LivroRepository {
                 rs.getInt("quantidade_disponivel")
         );
     }
+
+    public boolean existeCadastroLivroEmReserva(int id) {
+        String sql = "SELECT COUNT(*) FROM reserva WHERE livro_id = ?";
+        try (Connection conn = ConexaoDB.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao verificar matrícula: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean existeCadastroLivroEmEmprestimo(int id) {
+        String sql = "SELECT COUNT(*) FROM emprestimo WHERE livro_id = ?";
+        try (Connection conn = ConexaoDB.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao verificar matrícula: " + e.getMessage());
+        }
+        return false;
+    }
 }

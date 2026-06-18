@@ -10,7 +10,7 @@ import model.Funcionario;
 public class FuncionarioRepository {
 
     public List<Funcionario> listarTodos() {
-        String sql = "SELECT id, nome, cargo, matricula_funcional, email, telefone FROM funcionario ORDER BY nome";
+        String sql = "SELECT id, nome, cargo, matricula, email, telefone FROM funcionario ORDER BY nome";
         List<Funcionario> lista = new ArrayList<>();
         try (Connection conn = ConexaoDB.conectar();
              Statement st = conn.createStatement();
@@ -25,7 +25,7 @@ public class FuncionarioRepository {
     }
 
     public Optional<Funcionario> buscarPorId(int id) {
-        String sql = "SELECT id, nome, cargo, matricula_funcional, email, telefone FROM funcionario WHERE id = ?";
+        String sql = "SELECT id, nome, cargo, matricula, email, telefone FROM funcionario WHERE id = ?";
         try (Connection conn = ConexaoDB.conectar();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -41,8 +41,8 @@ public class FuncionarioRepository {
     }
 
     public List<Funcionario> buscarPorNomeOuMatricula(String termo) {
-        String sql = "SELECT id, nome, cargo, matricula_funcional, email, telefone FROM funcionario " +
-                "WHERE LOWER(nome) LIKE ? OR LOWER(matricula_funcional) LIKE ? ORDER BY nome";
+        String sql = "SELECT id, nome, cargo, matricula, email, telefone FROM funcionario " +
+                "WHERE LOWER(nome) LIKE ? OR LOWER(matricula) LIKE ? ORDER BY nome";
         List<Funcionario> resultado = new ArrayList<>();
         String filtro = "%" + termo.toLowerCase().trim() + "%";
         try (Connection conn = ConexaoDB.conectar();
@@ -69,7 +69,7 @@ public class FuncionarioRepository {
     }
 
     private Funcionario inserir(Funcionario funcionario) {
-        String sql = "INSERT INTO funcionario (nome, cargo, matricula_funcional, email, telefone) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO funcionario (nome, cargo, matricula, email, telefone) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = ConexaoDB.conectar();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, funcionario.getNome());
@@ -91,7 +91,7 @@ public class FuncionarioRepository {
     }
 
     private Funcionario atualizar(Funcionario funcionario) {
-        String sql = "UPDATE funcionario SET nome = ?, cargo = ?, matricula_funcional = ?, email = ?, telefone = ? WHERE id = ?";
+        String sql = "UPDATE funcionario SET nome = ?, cargo = ?, matricula = ?, email = ?, telefone = ? WHERE id = ?";
         try (Connection conn = ConexaoDB.conectar();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, funcionario.getNome());
@@ -131,7 +131,7 @@ public class FuncionarioRepository {
     }
 
     public boolean existeMatricula(String matricula, int idIgnorar) {
-        String sql = "SELECT COUNT(*) FROM funcionario WHERE LOWER(matricula_funcional) = LOWER(?) AND id <> ?";
+        String sql = "SELECT COUNT(*) FROM funcionario WHERE LOWER(matricula) = LOWER(?) AND id <> ?";
         try (Connection conn = ConexaoDB.conectar();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, matricula);
@@ -152,9 +152,25 @@ public class FuncionarioRepository {
                 rs.getInt("id"),
                 rs.getString("nome"),
                 rs.getString("cargo"),
-                rs.getString("matricula_funcional"),
+                rs.getString("matricula"),
                 rs.getString("email"),
                 rs.getString("telefone")
         );
+    }
+
+    public boolean existeCadastroFuncionarioEmEmprestimo(int id) {
+        String sql = "SELECT COUNT(*) FROM emprestimo WHERE funcionario_id = ?";
+        try (Connection conn = ConexaoDB.conectar();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao verificar matrícula: " + e.getMessage());
+        }
+        return false;
     }
 }

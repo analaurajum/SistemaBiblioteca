@@ -152,7 +152,8 @@ public class LivroPanel extends JPanel {
 
     private void atualizarCapaPreview() {
         OpenLibraryService.LivroResultado lr = (OpenLibraryService.LivroResultado) comboResultadosApi.getSelectedItem();
-        if (lr == null || lr.capaUrl == null) {
+
+        if (lr == null || lr.capaUrl == null)  {
             lblCapa.setIcon(null);
             lblCapa.setText("Sem capa");
             return;
@@ -334,6 +335,7 @@ public class LivroPanel extends JPanel {
         } else {
             // Edicao: ajusta disponibilidade proporcionalmente a alteracao de total
             Optional<Livro> opt = repo.buscarPorId(idEmEdicao);
+
             if (opt.isPresent()) {
                 Livro livro = opt.get();
                 int totalAnterior = livro.getQuantidadeTotal();
@@ -370,6 +372,14 @@ public class LivroPanel extends JPanel {
         int confirm = JOptionPane.showConfirmDialog(this,
                 "Deseja realmente remover este livro do estoque?", "Confirmacao", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
+            if(repo.existeCadastroLivroEmReserva(id)){
+                JOptionPane.showMessageDialog(this, "Não é possível realizar exclusão do livro pois há reserva cadastrada.","Atenção", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if(repo.existeCadastroLivroEmEmprestimo(id)){
+                JOptionPane.showMessageDialog(this, "Não é possível realizar exclusão do livro pois há empréstimo cadastrado.","Atenção", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
             repo.remover(id);
             limparFormulario();
             carregarTabela(repo.listarTodos());
@@ -381,6 +391,7 @@ public class LivroPanel extends JPanel {
         if (linha == -1) return;
 
         int id = (int) tableModel.getValueAt(linha, 0);
+
         Optional<Livro> opt = repo.buscarPorId(id);
         opt.ifPresent(l -> {
             idEmEdicao = l.getId();

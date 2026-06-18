@@ -177,13 +177,21 @@ public class AlunoPanel extends JPanel {
         int linha = tabela.getSelectedRow();
         if (linha == -1) {
             JOptionPane.showMessageDialog(this, "Selecione um aluno na tabela.",
-                    "Atencao", JOptionPane.WARNING_MESSAGE);
+                    "Atenção", JOptionPane.WARNING_MESSAGE);
             return;
         }
         int id = (int) tableModel.getValueAt(linha, 0);
         int confirm = JOptionPane.showConfirmDialog(this,
-                "Deseja realmente remover este aluno?", "Confirmacao", JOptionPane.YES_NO_OPTION);
+                "Deseja realmente remover este aluno?", "Confirmação", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
+            if(repo.existeCadastroAlunoEmReserva(id)){
+                JOptionPane.showMessageDialog(this, "Não é possível realizar exclusão do aluno pois há reserva cadastrada.","Atenção", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if(repo.existeCadastroAlunoEmEmprestimo(id)){
+                JOptionPane.showMessageDialog(this, "Não é possível realizar exclusão do aluno pois há empréstimo cadastrado.","Atenção", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
             repo.remover(id);
             limparFormulario();
             carregarTabela(repo.listarTodos());
