@@ -54,3 +54,38 @@ CREATE TABLE IF NOT EXISTS reserva (
     CONSTRAINT fk_res_aluno FOREIGN KEY (aluno_id) REFERENCES aluno(id),
     CONSTRAINT fk_res_livro FOREIGN KEY (livro_id) REFERENCES livro(id)
 ) ENGINE=InnoDB;
+
+
+INSERT INTO aluno (nome, matricula, curso, email, telefone) VALUES
+('João Silva', 'ALU2025001', 'Sistemas de Informação', 'joao.silva@email.com', '(54) 99911-1111'),
+('Maria Oliveira', 'ALU2025002', 'Engenharia de Software', 'maria.oliveira@email.com', '(54) 99922-2222'),
+('Carlos Souza', 'ALU2025003', 'Ciência da Computação', 'carlos.souza@email.com', '(54) 99933-3333'),
+('Ana Pereira', 'ALU2025004', 'Análise e Desenvolvimento de Sistemas', 'ana.pereira@email.com', '(54) 99944-4444'),
+('Lucas Santos', 'ALU2025005', 'Redes de Computadores', 'lucas.santos@email.com', '(54) 99955-5555');
+
+INSERT INTO funcionario (nome, cargo, matricula, email, telefone) VALUES
+('Fernanda Costa', 'Bibliotecária', 'FUN2025001', 'fernanda.costa@biblioteca.com', '(54) 98811-1111'),
+('Ricardo Lima', 'Auxiliar Administrativo', 'FUN2025002', 'ricardo.lima@biblioteca.com', '(54) 98822-2222'),
+('Patrícia Rocha', 'Atendente', 'FUN2025003', 'patricia.rocha@biblioteca.com', '(54) 98833-3333');
+
+INSERT INTO livro (isbn, titulo, autor, ano_publicacao, capa_url, quantidade_total, quantidade_disponivel) VALUES
+('9788575228289', 'Clean Code', 'Robert C. Martin', '2009', 'https://exemplo.com/capas/clean-code.jpg', 5, 3),
+('9780132350884', 'Clean Architecture', 'Robert C. Martin', '2018', 'https://exemplo.com/capas/clean-architecture.jpg', 4, 2),
+('9780134494166', 'Clean Coder', 'Robert C. Martin', '2016', 'https://exemplo.com/capas/clean-coder.jpg', 3, 2),
+('9788576082675', 'Código Limpo em Português', 'Robert C. Martin', '2012', 'https://exemplo.com/capas/codigo-limpo.jpg', 2, 1),
+('9780321125217', 'Domain-Driven Design', 'Eric Evans', '2003', 'https://exemplo.com/capas/ddd.jpg', 3, 3),
+('9780201633610', 'Design Patterns', 'Erich Gamma', '1994', 'https://exemplo.com/capas/design-patterns.jpg', 6, 5);
+
+INSERT INTO emprestimo (aluno_id, livro_id, funcionario_id, data_emprestimo, data_prevista_devolucao, data_devolucao, status) VALUES
+(1, 1, 1, '2025-06-01', '2025-06-15', NULL, 'ATIVO'),
+(2, 2, 1, '2025-05-10', '2025-05-24', '2025-05-22', 'DEVOLVIDO'),
+(3, 4, 2, '2025-06-05', '2025-06-19', NULL, 'ATIVO'),
+(4, 1, 3, '2025-04-01', '2025-04-15', '2025-04-14', 'DEVOLVIDO'),
+(5, 2, 2, '2025-06-08', '2025-06-22', NULL, 'ATIVO');
+
+INSERT INTO reserva (aluno_id, livro_id, data_reserva, data_validade, status) VALUES
+(2, 1, '2025-06-10', '2025-06-17', 'ATIVA'),
+(4, 3, '2025-06-09', '2025-06-16', 'ATIVA'),
+(1, 5, '2025-05-20', '2025-05-27', 'CONVERTIDA'),
+(3, 6, '2025-05-01', '2025-05-08', 'EXPIRADA'),
+(5, 4, '2025-06-11', '2025-06-18', 'ATIVA');
